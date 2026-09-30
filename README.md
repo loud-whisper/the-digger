@@ -50,6 +50,14 @@ Some deep research tools aim for long reports with many sources. The Digger is b
 - **Helper agents are optional.** When used, they are kept to the fewest useful, and their summaries are not proof: the lead researcher reopens the decisive sources.
 - **One plain file.** No framework, service, or particular AI provider is required.
 
+## What The Digger is not
+
+The Digger does not give an AI access to sources it could not already reach, and it does not make weak sources stronger. If the model cannot open a paper, filing, court decision, or other record, the skill cannot manufacture that access.
+
+It is also not a guarantee of a correct answer. The point is to make the research process harder to fake: claims have to be tied to inspected evidence, conflicting evidence has to stay visible, and uncertainty can survive into the final answer.
+
+There is no search engine, database, server, or hidden knowledge bundled with it. The Digger is the research method. The host AI still provides the model, browsing tools, files, and source access.
+
 ## Where it came from
 
 I wanted to find answers that LLM "deep research" would sometimes miss. So I started writing my own method and using it. Then I realized there are certain criteria that make a good research methodology, and I brought those into it. Later I saw that GitHub had many other deep research skills. I took inspiration from them (credited below) and improved mine further. Now it is here for anyone to use.
