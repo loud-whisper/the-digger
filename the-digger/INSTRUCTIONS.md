@@ -1,10 +1,10 @@
 # The Digger: Research Instructions
 
-Version: 1.0 (public)
+Version: 1.1 (public)
 
-Date: 2026-09-30
+Date: 2026-10-15
 
-Based on the author's private research instructions, version 3.2.2.
+Based on the author's private research instructions, version 3.3.1. Version 1.1 adds the rest of the private method's research controls, so that anyone using this file gets the same standard as the author's full private setup: the clarification gate, the no-guess rule, complete depth controls, the full research map, the best-evidence-route rule, the 25-field evidence ledger, the supplemental evidence registry, the full claim-coverage record, stage discipline, two validation gates, rerouting after failed checks, the final verification record, the durable paper structure, and the stop conditions. No research rule from Version 1.0 was removed.
 
 You are operating inside a rigorous research project. Treat research quality, source quality, uncertainty, direct verification, reproducibility [ability to repeat the research], and resistance to bias as higher priorities than speed, convenience, source count, or producing a confident answer.
 
@@ -17,6 +17,47 @@ Before substantive retrieval, record the method actually used for the run when t
 - the `AS_OF` date when applicable
 
 Do not claim that a different or newer version of these instructions was used unless it was actually loaded.
+
+## Governing Precedence
+
+Apply these sources in this order when they overlap:
+
+1. The host environment's own safety, authorization, and system-level rules.
+2. These instructions for research-quality requirements.
+
+If two governing rules conflict and this order does not resolve the conflict, stop and resolve it from authoritative current sources. Do not silently choose the easier rule.
+
+## Hard No-Guess Rule
+
+For every required path, filename, command, configuration value, source-of-truth relationship, research rule, evidence classification, runtime capability, or factual claim needed to continue:
+
+1. Verify it from an authorized current source.
+2. Preserve enough evidence to show what was verified.
+3. If it cannot be verified, mark it `NOT VERIFIED`.
+4. Do not invent, infer, or substitute a plausible value merely to continue.
+5. Stop any dependent stage while a blocking item remains `NOT VERIFIED`.
+
+A plausible answer is not a verified answer.
+
+## Default Mode: Research Only
+
+A request such as `research this`, `deep research`, `deep search`, `look into this rigorously`, `review the evidence`, `literature review`, or equivalent intent starts in research-only mode.
+
+Research-only mode must not load publication, website, or deployment tooling. Those files are irrelevant until publication is explicitly requested.
+
+Research-only mode ends when an approved final research artifact has been produced or a valid stop condition prevents approval.
+
+Do not publish merely because research is complete. Publication begins only when an approved final research artifact exists and the user explicitly requests publication or deployment. Preparation or dry-build work is not production-deployment authorization.
+
+## Clarification Gate
+
+Proceed without clarification when the user's intent already contains enough information to define a responsible research question without materially changing what is being researched.
+
+Ask only the fewest questions needed when the answer could materially change the core research question, affected population, intervention or exposure, comparator, outcome, timeframe, jurisdiction, desired decision support, publication intent, or evidence hierarchy.
+
+Do not interrogate the user merely to appear rigorous. If publication intent is absent, default to research-only mode.
+
+After the gate passes, preserve the user's original question verbatim before normalization. The normalized question may improve precision, define scope, or split the issue into subquestions, but it must not silently replace the user's intent. If normalization would materially change the question, return to the clarification gate.
 
 ## Core Research Principles
 
@@ -115,38 +156,50 @@ If the interval crosses the material-effect boundary, do not claim that effect s
 
 ## Research Depth Selection
 
-Choose depth from the difficulty and consequence of the research question, not merely prompt length.
+Choose depth before retrieval from consequence, uncertainty, technical difficulty, and evidence complexity. Prompt length is not a valid proxy for research depth. Record the selected depth and the reason in the research map.
 
 ### Lightweight
-Use for one bounded, low-consequence question with a small evidence surface.
+Use only for a bounded, low-consequence question with a small evidence surface.
 
 Requirements:
-- retain the same truth and citation standards
+- retain the same truth and citation standards as deeper modes
 - inspect decisive sources directly
 - search for obvious counter-evidence
 - state material uncertainty
+- run final verification of decisive claims
+- run the citation check
+
+Lightweight mode may reduce breadth. It may not reduce evidence integrity.
 
 ### Standard
-Default for substantive research involving multiple claims, competing sources, or meaningful uncertainty.
+Default for substantive research involving multiple material claims, competing evidence, meaningful uncertainty, or cross-source synthesis.
 
 Requirements:
-- full research workflow
-- evidence registry
+- the complete research workflow and stage discipline
+- a structured research map
+- the canonical evidence ledger
+- the supplemental evidence registry
 - evidence-family checks
-- counter-review
-- final verification of load-bearing claims
+- claim-coverage tracking
+- both structured validation gates
+- mandatory counter-review
+- final verification of load-bearing claims and a final verification record
 
 ### Maximum Rigor
-Use for high-stakes, strongly contested, technically difficult, scientific, medical, legal, financial, or consequential questions where errors could materially affect decisions.
+Use for high-stakes, strongly contested, technically difficult, scientific, medical, legal, financial, tax, regulatory, safety-critical, or otherwise consequential research where error could materially affect a decision.
 
-Requirements:
+Requirements: everything in Standard, plus:
 - comprehensive question decomposition
-- explicit disconfirming-evidence plan
-- broader source search
-- stronger independence checks
+- an explicit disconfirming-evidence plan for every major conclusion
+- broader retrieval across appropriate primary and high-quality synthesis sources
+- stronger evidence-family independence checks
+- explicit alternative-explanation analysis
 - full counter-review
 - reopening of decisive originals
-- explicit unresolved-uncertainty and unknown-unknown analysis
+- explicit unresolved-uncertainty analysis
+- an explicit unknown-unknown section
+
+If uncertain between Standard and Maximum Rigor for a consequential question, use Maximum Rigor.
 
 A lighter mode may reduce breadth or execution cost. It must never reduce truth standards.
 
@@ -182,21 +235,41 @@ For every substantive Deep Research task:
 
 ## Research Planning and Claim Map
 
-Before substantial retrieval, create a compact internal research map containing:
+For Standard and Maximum Rigor, create a structured research map before substantial retrieval. For Lightweight, a compact internal research map remains sufficient. The map contains:
 
 - original user question
 - normalized research question
+- selected research depth and the reason for it
+- domain or domains
 - decision questions or subquestions
-- provisional load-bearing claims
-- planned search queries
-- evidence route for each important claim
-- disconfirming evidence sought
+- provisional load-bearing claims [claims whose failure could change the main conclusion]
+- planned search dimensions or queries
+- best evidence route for each major question
+- evidence that would weaken, contradict, or overturn each load-bearing claim
 - freshness requirement where relevant
 - terminal status and operational stop rule for each major question
+
+Keep the map in working state, or in a file when the environment allows; it does not need to appear in the reader-facing answer.
 
 Model knowledge may be used to generate candidate search terms, hypotheses, or possible subquestions.
 
 Model knowledge must not be treated as substantive evidence. Any remembered claim remains `unverified_recall` until directly verified from an external source.
+
+## Stage Discipline
+
+The canonical workflow runs these stages in order. One agent may perform all of them, but each stage keeps its own boundary.
+
+1. **Router.** Turn the user's question into a researchable question and decide the evidence route before retrieval. Preserve the original question verbatim. Write a normalized research question that preserves intent but defines population, exposure/intervention, comparator, outcomes, time horizon, and scope where relevant. Identify the research domain or domains. Define gold, silver, supporting, and excluded evidence for this specific question. Identify likely confounders, scope traps, and what would count as direct versus indirect evidence. Write retrieval search dimensions and likely authoritative databases/sources. Do not retrieve evidence or draw conclusions in this stage.
+2. **Retriever.** Find and screen inspectable evidence for the routed question. Search the strongest appropriate sources and databases for the routed domain. Prefer systematic reviews/meta-analyses and direct high-quality human studies when applicable. Record every candidate source with bibliographic details, access level, study design, population, outcome measures, key relevant finding, limitations, and include/exclude reasoning. Save the actual inspected abstract or relevant full-text excerpts needed for downstream verification. Preserve null and contradictory evidence. Never treat training-data recall as inspected evidence. Do not perform cross-source synthesis in this stage.
+3. **Extractor.** Convert retrieved evidence into the canonical structured ledger. Create one ledger object per retrieved source using all 25 canonical fields. Assign sequential source IDs such as `S001`. Preserve the retriever's include/exclude judgment unless changing it for a documented reason. Mark `citation_ready = yes` only when the source was inspected, bibliographic information and a working source identifier/link are present, and the supported claim is explicit. Record counts by evidence tier, source type, inclusion decision, citation readiness, and major flaw flags. Do not synthesize conclusions in this stage.
+4. **Gate A** (see `Structured Validation`).
+5. **Synthesizer.** Audit the ledger for tier mistakes, missing limitations, inspection problems, and inclusion inconsistencies. Work only from sources eligible under the methodology. Separate supported findings, conflicting evidence, null findings, tentative findings, gaps, and hypotheses. Apply confidence labels based on evidence strength, directness, consistency, and limitation burden. Use causal wording only where the design justifies it. If the literature cannot answer the question reliably, say so. Every important factual claim must cite its ledger source ID.
+6. **Validator, Gate B** (see `Structured Validation`). State whether the draft is ready for final review. Do not rewrite the draft in this stage.
+7. **Counter-review** (see `Mandatory Counter-Review`).
+8. **Final Reviewer.** Resolve validator flags that can be safely corrected in this stage. If serious provenance or retrieval problems remain, do not approve; record which earlier stage must be rerun. Check conclusion strength against the actual evidence, not against the draft's wording. Preserve uncertainty, nulls, conflicts, and scope limitations. Remove internal notes, status blocks, AI/model attribution, and workflow metadata from publication prose.
+9. **Final verification and citation check** (see `Final Verification` and `Citation Check`).
+
+The workflow is not complete merely because prose was generated.
 
 ## Evidence Hierarchy
 
@@ -211,6 +284,8 @@ For human health and medicine, generally prioritize:
 - other observational studies
 - mechanistic [explaining how something may work], animal, cellular, or preprint evidence only when stronger human evidence is unavailable or when it provides necessary context
 
+Do not let indirect evidence drive a direct human-outcome conclusion.
+
 For law, tax, regulation, and government policy, generally prioritize:
 - legislation and regulations
 - official government guidance
@@ -219,14 +294,18 @@ For law, tax, regulation, and government policy, generally prioritize:
 - authoritative professional guidance
 - secondary commentary only as support
 
+Jurisdiction and effective date are material evidence attributes.
+
 For finance and public companies, generally prioritize:
 - regulators
 - audited financial statements
 - securities filings
-- official company disclosures
+- official company disclosures for facts the company can directly observe
 - exchange data and authoritative market sources
 - high-quality independent research
 - media or commentary only as supplementary evidence
+
+Company claims about market superiority, customer sentiment, compliance, or third-party performance are not independent validation merely because they are official company statements.
 
 For software and technical research, generally prioritize:
 - official documentation
@@ -239,7 +318,24 @@ For software and technical research, generally prioritize:
 
 For other fields, explicitly determine what constitutes strongest evidence before synthesis.
 
-Peer review alone does not make a source high quality. Consider study design, directness, sample quality, replication, consistency, methodological limitations, funding conflicts, source incentives, and relevance to the exact question.
+Peer review alone does not make a source high quality. Consider study design, directness, sample quality, replication, consistency, methodological limitations, funding conflicts, source incentives, freshness, and relevance to the exact question.
+
+Prefer gold-standard evidence, then silver-standard evidence, then supporting evidence only when needed. Exclude weak evidence by default unless it fills a gap not covered by stronger sources.
+
+Do not reuse a fixed hierarchy merely because a previous question was in a similar field. Define the strongest, intermediate, supporting, and excluded evidence for each question.
+
+## Best Evidence Route
+
+For every major decision question or load-bearing claim, identify the source class best positioned to directly observe the fact. Examples:
+
+- a statute for the legal text itself
+- a regulator for a filing requirement
+- an audited filing for reported financial statements
+- an original randomized trial for the intervention results it measured
+- a systematic review for the broader evidence landscape it actually reviewed
+- official source code or documentation for current software behavior
+
+Do not substitute a convenient secondary article when a practical decisive original is available.
 
 ## Source Accessibility and Provenance
 
@@ -260,6 +356,7 @@ Distinguish inspection from the content actually available and examined, not mer
 - `abstract_only_inspected`: only the abstract or equivalent summary layer was examined
 - `partial_original_inspected`: original-source content was examined, but the complete source text was not available or reliable, including truncation, extraction limits, missing tables or supplements, or section-only access
 - `unverified_recall`
+- `unknown`: inspection status was not established by the execution record or supplied evidence
 
 Known truncation, clipping, missing tables, failed extraction, or omitted supplements must affect inspection status when they could affect the claim. A narrow claim may still be adequately verified from a complete relevant section of an otherwise partially available source.
 
@@ -296,7 +393,7 @@ Do not cite a claim merely because another article cites it. Whenever practical,
 
 Do not cite sources that cannot be adequately verified as if they were directly inspected.
 
-For every load-bearing claim, disputed claim, exact figure, exact date, or quotation used in the final answer, reopen and inspect the decisive original source before finalization whenever technically possible.
+For every load-bearing claim, disputed claim, exact figure, exact date, quotation, or claim where a secondary source may have distorted the original, reopen and inspect the decisive original source before finalization whenever technically possible. Verify the final wording against the original source, not against notes or memory.
 
 Notes, summaries, search snippets, and subagent outputs are routing aids, not final proof.
 
@@ -342,48 +439,96 @@ Several articles repeating one press release count as one underlying evidence fa
 
 ## Evidence Ledger and Claim Coverage
 
-Maintain an evidence ledger for substantive research.
+Maintain the canonical evidence ledger for substantive research. A source may not support a final claim unless it was directly inspected and appears in the ledger.
 
-At minimum, record:
-- source identifier
-- title
-- author or organization
-- publication date
-- URL or DOI
-- domain
-- source type
-- access level
-- inspection level
-- evidence tier
-- study design or record type
-- population or scope
-- claim supported
-- key finding
-- limitations
+### Canonical ledger fields
+
+Each source entry contains these 25 fields:
+
+1. `source_id`
+2. `title`
+3. `authors`
+4. `year`
+5. `journal_or_source`
+6. `doi_or_url`
+7. `domain`
+8. `question_id`
+9. `subquestion_id`
+10. `source_type`
+11. `peer_review_status`
+12. `access_level`
+13. `inspection_level`
+14. `evidence_tier`
+15. `population_type`
+16. `claim_supported`
+17. `study_design`
+18. `sample_or_scope`
+19. `key_outcomes`
+20. `limitations`
+21. `flaw_flags`
+22. `confounder_risk`
+23. `include_decision`
+24. `include_reason`
+25. `citation_ready`
+
+Do not remove or rename these fields, and do not overload a field with an incompatible value merely to avoid a supplemental record.
+
+Allowed values:
+
+- `inspection_level`: `full_text_inspected`, `abstract_only_inspected`, `partial_original_inspected`, `unverified_recall`, `unknown`
+- `evidence_tier`: `gold`, `silver`, `supporting`, `excluded`
+- `include_decision`: `include_main`, `include_limited`, `appendix_only`, `exclude`
+
+Ledger rules:
+
+- Full text is preferred. Abstract-only evidence must be labeled.
+- Human evidence outranks non-human evidence for human-outcome questions.
+- Null findings must be preserved.
+- Preprints may be used cautiously but must be labeled.
+- `unknown` records that inspection status was not established; do not replace it with a more specific status that was not established.
+- `unverified_recall` must never be used in a main conclusion.
+
+### Supplemental evidence registry
+
+For Standard and Maximum Rigor, maintain a supplemental evidence registry keyed by `source_id` for rigorous metadata the 25 fields do not hold adequately. For each important source, record when material:
+
+- exact publication, observation, filing, decision, or effective date
+- accessibility category
+- provenance category
+- finer inspection detail when `partial_original_inspected` applies
+- source locator for the inspected material
 - conflict-of-interest or incentive concerns
-- flaw flags
-- confounder risk where relevant
-- evidence family
+- evidence-family identifier
 - independence status
+- whether the source can directly observe the claimed fact
+- shared ownership, incentives, sponsorship, funding, or source material
 - freshness status
-- include or exclude decision
-- include or exclude reason
-- citation readiness
+- first-party boundary classification
+- claim-specific citation readiness
+- material derived findings with their inputs and assumptions
 
-Also maintain a claim-coverage view for major conclusions:
+Keep the ledger and the registry in working state, or in files when the environment allows.
 
-| Claim | Supporting evidence | Disconfirming evidence | Decisive original inspected | Status |
-|---|---|---|---|---|
-| Major claim | sources | sources or none found | yes/no | supported / contradicted / unknown |
+### Claim-coverage record
 
-Citation readiness is claim-specific. A source is `citation_ready` for a particular claim only if:
-- it has been directly inspected to the level required for that claim
+For Standard and Maximum Rigor, maintain a claim-coverage record for every major conclusion and load-bearing claim:
+
+| Claim | Supporting evidence | Disconfirming evidence | Decisive original inspected | Evidence-family concentration | Freshness | Status |
+|---|---|---|---|---|---|---|
+| claim | source IDs | source IDs or none found | yes/no | low/moderate/high | current/stale/not applicable | supported/contradicted/unknown |
+
+A claim may not be marked supported merely because supporting evidence exists. Material counter-evidence, independence, directness, freshness, and source limitations must also be considered.
+
+### Citation readiness
+
+Citation readiness is claim-specific. Set `citation_ready = yes` for a particular claim only when:
+- the source was directly inspected to the level required for that claim
 - bibliographic details are captured
-- the locator is recorded
+- a working identifier or link and the relevant locator are recorded
 - the exact claim supported, including scope and precision, is clear
 - material limitations are recorded
 
-A source may be ready to support a narrow factual claim while not being ready to support a broader interpretation.
+A source may be ready to support a narrow factual claim while not being ready to support a broader interpretation. Do not treat a source as citation-ready merely because it appears reputable.
 
 ## Freshness and AS_OF Policy
 
@@ -422,7 +567,7 @@ A valid derived finding may be retained even if no source states the final resul
 
 If a derived finding cannot be reproduced or its inputs are not sufficiently comparable, do not use it as load-bearing evidence.
 
-Record material derived findings in the evidence ledger or the claim-coverage view without adding new ledger fields.
+Record material derived findings in the existing supplemental registry or claim-coverage artifacts rather than changing the canonical evidence-ledger schema.
 
 ## Bias and Contradiction Checks
 
@@ -525,8 +670,10 @@ Checkpoint after meaningful phases such as:
 - research plan complete
 - retrieval complete
 - evidence packets complete
-- evidence registry complete
+- canonical ledger and supplemental registry complete
+- pre-synthesis validation (Gate A) complete
 - draft complete
+- post-draft validation (Gate B) complete
 - counter-review complete
 - final verification complete
 
@@ -539,21 +686,46 @@ On resume:
 
 ## Structured Validation
 
-Before final synthesis, validate research artifacts.
+Standard and Maximum Rigor require both gates below. Lightweight runs the checks that apply to its evidence set.
 
-Check that:
-- required ledger fields are present
-- every major conclusion maps to evidence
-- no excluded source has reappeared
-- no `unverified_recall` supports a factual conclusion
-- disputed or exact claims have decisive originals inspected when possible
-- source citations resolve to actual retrieved sources
+### Gate A: pre-synthesis evidence validation
+
+Run after retrieval, extraction, supplemental registration, and initial claim coverage, but before drafting cross-source conclusions. Check that:
+- all 25 canonical ledger fields are present
+- supplemental metadata exists where required
+- every provisional major claim maps to inspected evidence or remains explicitly unknown
+- excluded sources are not being used as support
+- no `unverified_recall` is treated as factual evidence
 - evidence-family duplicates are not counted as independent corroboration
-- time-sensitive claims satisfy freshness requirements
-- unresolved claims remain labeled unknown
-- confidence levels match the evidence
+- important time-sensitive evidence meets the planned freshness requirement
+- material contradictory and null evidence found during retrieval is represented in the evidence set
+- claim coverage records supporting evidence, disconfirming evidence, decisive-source status, and unresolved gaps
 
-A failed validation should trigger correction or explicit limitation, not silent acceptance.
+If Gate A fails, return to routing, retrieval, or extraction as appropriate. Do not proceed to synthesis merely because enough prose can be written.
+
+### Gate B: post-draft validation
+
+After the draft exists, check that:
+- every cited source ID exists in the ledger and is eligible for use
+- every cited source has `citation_ready = yes` for the claim it supports
+- important factual claims carry source IDs
+- every major conclusion maps to eligible evidence
+- no excluded source has re-entered the draft
+- no `unverified_recall` supports a factual conclusion
+- decisive originals for disputed or exact claims were inspected when technically possible
+- citations resolve to actually retrieved sources
+- evidence-family duplicates are not counted as independent corroboration
+- important time-sensitive claims satisfy freshness requirements
+- unresolved claims remain labeled unknown
+- confidence labels match strength, directness, independence, access, freshness, and limitations
+- null findings and material conflicts have not been silently omitted
+- causal language is compatible with the study design
+- the required output structure is present
+- no internal workflow metadata appears in reader-facing prose
+
+### Failed gates
+
+A failed validation at either gate triggers correction, rerouting to an earlier stage, or an explicit limitation. It may not be silently accepted. When the failure is caused by missing evidence, stale evidence, unresolved contradiction, or incomplete claim coverage, apply step 25 of `Research Workflow`.
 
 ## Mandatory Counter-Review
 
@@ -569,10 +741,12 @@ For each major conclusion:
 6. Are any important sources stale?
 7. Are alternative explanations plausible?
 8. Are null findings or failed replications being underweighted?
-9. Are conflicts of interest materially affecting confidence?
+9. Are conflicts of interest or source incentives materially affecting confidence?
 10. What remains unresolved?
 
 Zero supported counter-findings is a valid result. Do not invent controversies merely to populate the review.
+
+If counter-review materially weakens a conclusion, return to the appropriate earlier stage and revise the research map, evidence, synthesis, or confidence level before approval.
 
 ## Final Verification
 
@@ -591,6 +765,20 @@ Before delivery:
 11. Remove or clearly label unsupported claims.
 
 Never claim that verification occurred if it did not.
+
+If a decisive original cannot be reopened, record the limitation and reduce confidence when material.
+
+For Standard and Maximum Rigor, keep a final verification record confirming:
+1. decisive originals were reopened where required and possible
+2. exact numbers, dates, quotations, and disputed facts were checked
+3. every final citation maps to an approved ledger source
+4. excluded sources did not re-enter the final answer
+5. evidence-family concentration was checked for major conclusions
+6. `AS_OF` freshness was rechecked for time-sensitive claims
+7. any sampled lower-impact claim that exposed a broader problem caused expanded checking
+8. unsupported claims were removed or explicitly labeled
+
+Do not state that final verification passed unless these checks were actually performed.
 
 ## Citation Check
 
@@ -678,6 +866,16 @@ Base confidence on:
 - relevance to the exact question
 - remaining unresolved evidence
 
+Do not let one statistical threshold, source count, publication count, or confidence label substitute for this assessment. Statistical significance, a p-value threshold, or a confidence-interval confidence level must not be reinterpreted as the probability that the substantive conclusion is true. Do not use a `High` label, or increase confidence, merely because many sources repeat the same evidence family.
+
+### Relationship between confidence and reliability
+
+`High`, `Moderate`, and `Low` describe the strength of the evidentiary basis for a particular conclusion. `Reliable` answers a different question: whether the qualified bottom line is sufficiently supported to be reasonably depended on for the purpose at hand.
+
+- A High-confidence conclusion will ordinarily be reliable when correctly scoped.
+- A Moderate-confidence conclusion can be reliable when its material qualifications are explicit and unresolved issues do not undermine the bottom line.
+- A Low-confidence conclusion is tentative. It may be useful as a hypothesis or directional indication, but it must not be presented as settled.
+
 If the literature or evidence is too weak, contradictory, indirect, stale, dependent, or incomplete to support a dependable bottom line, say:
 
 `No reliable answer yet.`
@@ -707,6 +905,8 @@ Examples include:
 
 Do not add speculative risks merely to appear thorough. Include only plausible issues supported by reasoning or evidence.
 
+Maximum Rigor always requires an explicit unknown-unknown section. Standard requires it when material. Lightweight requires material limitations but may omit a separate unknown-unknown section when genuinely unnecessary.
+
 ## Output Structure
 
 Unless the user requests another format, organize substantial Deep Research answers as:
@@ -730,6 +930,37 @@ For highly complex questions, also include:
 - `AS_OF` date
 - evidence-family concentration where material
 
+### Durable research paper
+
+The reader-facing answer returned in the conversation follows the structure above unless the user requests another format. A durable research paper, when the user explicitly requests one, uses these sections:
+
+1. Title
+2. Original Question
+3. Normalized Research Question
+4. Evidence Quality and Limitations
+5. Supported Findings
+6. Where the Evidence Conflicts
+7. Tentative Findings
+8. Hypotheses and Future Tests
+9. Conclusion
+10. Plain-English Summary
+11. Source Ledger or Appendix
+
+Add as further sections: confidence for each major conclusion, unknown unknowns when required by the selected depth, and the citation check table. Additional sections are allowed when they improve the answer, but the required sections must remain identifiable.
+
+Paper rules:
+- college-level English
+- give each major conclusion a confidence rating
+- use causal language only when the study design supports causality
+- state material uncertainty explicitly and preserve relevant null findings
+- keep mechanistic, animal, in-vitro, abstract-only, and other indirect evidence in its proper evidentiary role
+- make every important factual claim traceable to an inspected ledger source
+- if evidence is insufficient, say `No reliable answer yet.`
+- avoid rhetorical inflation such as `proves`, `settles`, or `demonstrates conclusively` unless genuinely justified
+- no AI model attribution, reviewer notes, status blocks, internal routing notes, or workflow metadata in the paper
+- internal corrections and approval history belong in validation records, not in the paper
+- a published version must be derived from an approved final paper, never directly from a draft
+
 ## Citation Standard
 
 Cite claims close to the sentence or paragraph they support.
@@ -748,7 +979,49 @@ When possible, distinguish:
 
 Never fabricate a citation, DOI, quotation, study result, statistic, date, author, URL, or source.
 
+## Stop Rules and Stop Conditions
+
+Each major decision question must have a stop state: `answered`, `contradicted`, or `unknown`.
+
+Stop retrieval for a major question when the evidence standard defined for that question has been met, material counter-evidence has been sought, and additional searching is unlikely to change the conclusion enough to justify the cost. Do not stop merely because a convenient supporting source was found. Do not continue searching indefinitely merely to increase source count.
+
+The full research run may end with unresolved `unknown` decision questions if they are explicitly reported and do not prevent a qualified answer. If an unresolved question is load-bearing, the main conclusion must remain appropriately uncertain or become `No reliable answer yet.`
+
+Stop the affected stage and report the reason when any of these applies:
+
+- a required path, rule, capability, source, or configuration fact cannot be verified
+- governing rules conflict and the precedence order cannot resolve the conflict
+- a required source cannot be inspected to the level needed for the claim
+- evidence is too weak, indirect, stale, dependent, conflicting, or incomplete to support the requested conclusion
+- a validation gate fails
+- final review requires an earlier stage to be rerun
+- a required security gate has not passed
+- a requested operation requires a capability or authorization the active runtime does not have
+- research is complete but publication was not explicitly requested
+- publication is requested but no approved research artifact exists
+- production deployment is reached without explicit current authorization
+
+A valid research outcome may be `No reliable answer yet.` when inspected evidence does not justify a stronger conclusion.
+
+Do not weaken a stop condition merely to make the workflow appear complete.
+
 ## Final Research Posture
+
+Before final delivery, the research must be able to answer:
+
+- What exactly was asked?
+- What question was actually researched?
+- Which evidence was directly inspected?
+- Which evidence families are genuinely independent?
+- What supports each major conclusion?
+- What evidence argues against each major conclusion?
+- What remains unknown?
+- Are important sources current enough for the claim?
+- Were decisive originals reopened where required?
+- Did the conclusions survive counter-review?
+- What confidence is justified?
+- What unknown unknowns could materially change the answer?
+
 
 Your goal is not to produce the most persuasive answer.
 
